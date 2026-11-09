@@ -1,0 +1,237 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* ------------------------------------------------------------------------ */
+/* Design tokens                                                             */
+/* Retune the whole site from here. Colors are defined once for light and    */
+/* once for dark; everything else references them.                           */
+/* ------------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+
+  --bg: #faf7ff;
+  --surface: #ffffff;
+  --surface-2: #f1ecfa;
+  --ink: #1b1230;
+  --ink-2: #5b536b;
+  --ink-3: #8c84a0;
+  --line: #e4dcf3;
+  --line-strong: #c9bde6;
+
+  --brand: #6d3be0;
+  --brand-strong: #5629c0;
+  --brand-soft: #ece4ff;
+  --brand-ink: #ffffff;
+
+  --yes: #1f8a5b;
+  --yes-bg: #e3f6ec;
+  --no: #c8322f;
+  --no-bg: #fde7e6;
+  --neutral: #a35f00;
+  --neutral-bg: #fff1dd;
+  --muted: #6e6a78;
+  --muted-bg: #efedf3;
+
+  --party-d: #2f6fdb;
+  --party-r: #d2403c;
+  --party-l: #c9a200;
+  --party-g: #2e9e4f;
+  --party-i: #7a7a7a;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgb(27 18 48 / 0.06), 0 8px 24px -12px rgb(27 18 48 / 0.18);
+  --header-h: 60px;
+  --measure: 68ch;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #120f1a;
+  --surface: #1b1626;
+  --surface-2: #241d33;
+  --ink: #f3eeff;
+  --ink-2: #b4a9cc;
+  --ink-3: #847a9c;
+  --line: #332a47;
+  --line-strong: #4a3d66;
+
+  --brand: #a98bff;
+  --brand-strong: #c3adff;
+  --brand-soft: #2a2144;
+  --brand-ink: #120f1a;
+
+  --yes: #4ccb8f;
+  --yes-bg: #0f3324;
+  --no: #ff7b76;
+  --no-bg: #3a1413;
+  --neutral: #ffb454;
+  --neutral-bg: #3a2a10;
+  --muted: #a09bad;
+  --muted-bg: #2a2634;
+
+  --party-d: #6f9dff;
+  --party-r: #ff7c78;
+  --party-l: #e8c53a;
+  --party-g: #5fcf7e;
+  --party-i: #a5a5a5;
+
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-ink: var(--brand-ink);
+  --color-yes: var(--yes);
+  --color-yes-bg: var(--yes-bg);
+  --color-no: var(--no);
+  --color-no-bg: var(--no-bg);
+  --color-neutral: var(--neutral);
+  --color-neutral-bg: var(--neutral-bg);
+  --color-muted: var(--muted);
+  --color-muted-bg: var(--muted-bg);
+
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-body), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: var(--radius);
+  --radius-sm: var(--radius-sm);
+  --shadow-card: var(--shadow);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Base                                                                      */
+/* ------------------------------------------------------------------------ */
+html {
+  scroll-padding-top: calc(var(--header-h) + 72px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  background: var(--brand);
+  color: var(--brand-ink);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.skip-link:focus { top: 0.75rem; }
+
+/* ------------------------------------------------------------------------ */
+/* Prose (Portable Text)                                                      */
+/* ------------------------------------------------------------------------ */
+.prose {
+  max-width: var(--measure);
+}
+.prose > * + * { margin-top: 1em; }
+.prose p { color: var(--ink); }
+.prose a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--brand) 45%, transparent);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 120ms ease;
+}
+.prose a:hover { text-decoration-color: var(--brand); }
+.prose h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-top: 1.5em;
+}
+.prose ul, .prose ol {
+  padding-left: 1.4em;
+}
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li + li { margin-top: 0.35em; }
+.prose blockquote {
+  border-left: 3px solid var(--line-strong);
+  padding-left: 1em;
+  color: var(--ink-2);
+  font-style: italic;
+}
+.prose strong { font-weight: 700; }
+.prose--small { font-size: 0.95rem; }
+.prose--quiet p { color: var(--ink-2); }
+
+/* Ballot language: set in the display face, quieter, like a form */
+.ballot-language {
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+  font-size: 0.95rem;
+  color: var(--ink-2);
+}
+.ballot-language .prose > * + * { margin-top: 0.6em; }
+
+/* Native details with a smooth-ish reveal */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details .reveal { animation: reveal 220ms ease both; }
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Quick view: compress item cards */
+[data-quick="true"] .quick-hide { display: none !important; }
+[data-quick="true"] .item-card { padding-block: 0.75rem; }
+
+/* Horizontal scroller without a visible scrollbar */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Sanity Studio should look like itself, not inherit our body styles */
+[data-ui="Studio"], .sanity-studio { font-family: inherit; }
